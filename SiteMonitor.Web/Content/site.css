@@ -1,0 +1,43 @@
+﻿body {
+    font-family: 'Segoe UI';
+}
+
+.site {
+    display: block;
+    width: 173px;
+    height: 173px;
+    float: left;
+    margin: auto;
+    padding: 5px;
+    margin: 5px;
+    font-size: 12pt;
+    word-wrap: break-word;
+}
+
+.on {
+    background-color: #005533;
+    color: #fff;
+}
+
+.off {
+    background-color: #FF0011;
+    color: #fff;
+}
+
+.waiting {
+    background-color: #ffd800;
+    color: #000;
+}
+
+label {
+    display: block;
+    clear: both;
+    width: 200px;
+}
+
+.removeSite {
+    display: block;
+    bottom: 0px;
+    clear: both;
+    position: relative;
+}

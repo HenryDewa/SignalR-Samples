@@ -1,0 +1,21 @@
+﻿body {
+    font-family: 'Segoe UI';
+}
+
+button {
+    display: block;
+    margin: 10px 0 0 0;
+}
+
+label {
+    width: 200px;
+    display: block;
+}
+
+input {
+    clear: right;
+}
+
+ul#messages li {
+    list-style-type: none;
+}

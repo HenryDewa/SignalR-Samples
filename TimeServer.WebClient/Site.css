@@ -1,0 +1,14 @@
+﻿body {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#clock {
+    margin: 20px;
+    display: block;
+    background-color: #000;
+    color: #00ff21;
+    font-size: 72pt;
+    font-family: Consolas;
+    text-align: center;
+}

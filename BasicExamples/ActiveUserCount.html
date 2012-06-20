@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript" src="Scripts/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.signalR-0.5.1.js"></script>
+    <style type="text/css">
+        #userCount {
+            font-family: 'Segoe UI';
+            font-size: 48pt;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="userCount"></div>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var c = $.connection("/userCounter");
+
+            c.received(function (count) {
+                if (count == 1) {
+                    $('#userCount').html('There is ' + count + ' user online now');
+                }
+                else {
+                    $('#userCount').html('There are ' + count + ' users online now');
+                }
+            });
+
+            c.start();
+        });
+
+    </script>
+
+</body>
+</html>

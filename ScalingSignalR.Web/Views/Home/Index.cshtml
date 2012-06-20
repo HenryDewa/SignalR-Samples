@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.6.4.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/json2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.signalR-0.5.1.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/signalr/hubs")"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/site.css")" />
+</head>
+<body>
+    <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" />
+        <label for="message">Message</label>
+        <input type="text" name="message" id="message" size="50" />
+        <button value="Send" id="send">Send</button>
+        <ul id="messages"></ul>
+    </div>
+
+    <script type="text/ecmascript">
+
+        $(function () {
+            var hub = $.connection.chatHub;
+
+            $.extend(hub, {
+                receiveMessage: function (result) {
+                    $('#messages').append('<li><b>' + result.username + '</b> said ' + result.message + '</li>');
+                }
+            });
+
+            $('#send').attr('disabled', 'disabled');
+            $('#message').attr('disabled', 'disabled');
+            $('#username').keyup(function() {
+                if ($('#username').val() == '') {
+                    $('#send').attr('disabled', 'disabled');
+                    $('#message').attr('disabled', 'disabled');
+                }
+                else {
+                    $('#send').removeAttr('disabled');
+                    $('#message').removeAttr('disabled');
+                }
+            });
+
+            $('#message').keypress(function (a) {
+                if (a.which == '13') {
+                    sendMessage();
+                }
+            });
+
+            $('#username').keypress(function (a) {
+                if (a.which == '13') {
+                    $('#message').focus();
+                }
+            });
+
+            $.connection.hub.start(function () {
+                $('#send').click(function () {
+                    sendMessage();
+                });
+            });
+
+            function sendMessage() {
+                var msg = {
+                    username: $('#username').val(),
+                    message: $('#message').val()
+                };
+
+                if (msg.message != '') {
+                    hub.sendMessage(msg);
+                }
+
+                $('#message').val('');
+                $('#message').focus();
+            }
+
+            $('#username').focus();
+        });
+
+    </script>
+</body>
+</html>

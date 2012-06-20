@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Hit Counter</h2>
+
+<div id="currentHitCount"></div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="../Scripts/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery.signalR-0.5.0.js"></script>
+    <script type="text/ecmascript" src="/SignalR/Hubs"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var hub = $.connection.hitCounterHub
+
+            $.extend(hub, {
+                showHitCount: function (hitCount) {
+                    $('#currentHitCount').html("This site has had " + hitCount + " hits.");
+                }
+            });
+
+            $.connection.hub.start(function () {
+                hub.addHit();
+            });
+        });
+
+    </script>
+}

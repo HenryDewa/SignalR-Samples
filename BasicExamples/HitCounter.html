@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript" src="../Scripts/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery.signalR-0.5.1.js"></script>
+    <script type="text/javascript" src="/SignalR/Hubs"></script>
+    <style type="text/css">
+        #currentHitCount {
+            font-family: 'Segoe UI';
+            font-size: 48pt;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="currentHitCount"></div>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var hub = $.connection.hitCounter;
+
+            $.extend(hub, {
+                showHitCount: function (hitCount) {
+                    if (hitCount > 1) {
+                        $('#currentHitCount')
+                            .html("This site has had " + hitCount + " hits.");
+                    }
+                    else {
+                        $('#currentHitCount')
+                            .html("This site has had " + hitCount + " hit.");
+                    }
+                }
+            });
+
+            $.connection.hub.start(function () {
+                hub.addHit();
+            });
+        });
+
+    </script>
+
+</body>
+</html>
