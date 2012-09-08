@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TimeServer.Azure" generation="1" functional="0" release="0" Id="6ae5b35b-9972-4d87-98f5-0476432f9874" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TimeServer.Azure" generation="1" functional="0" release="0" Id="c528127c-5a2e-4425-b5d5-c57c8e3ae361" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="TimeServer.AzureGroup" generation="1" functional="0" release="0">
       <settings>
@@ -28,7 +28,7 @@
       </maps>
       <components>
         <groupHascomponents>
-          <role name="TimeServer.WorkerRole" generation="1" functional="0" release="0" software="C:\Users\bradyg\Dropbox\Presentations\AZ-Groups-Gu-Day-2012\AZ-Group-SignalR\TimeServer.Azure\csx\Debug\roles\TimeServer.WorkerRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="1792" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
+          <role name="TimeServer.WorkerRole" generation="1" functional="0" release="0" software="C:\Users\bradyg\SkyDrive\Sources\SignalR-Samples\TimeServer.Azure\csx\Debug\roles\TimeServer.WorkerRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="1792" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
             <settings>
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
               <aCS name="__ModelData" defaultValue="&lt;m role=&quot;TimeServer.WorkerRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;TimeServer.WorkerRole&quot; /&gt;&lt;/m&gt;" />

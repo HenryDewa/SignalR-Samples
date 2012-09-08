@@ -9,13 +9,14 @@ using SignalR.Hubs;
 
 namespace TimeServer
 {
+    [HubName("serverTime")]
     public class TimeHub : Hub
     {
         public Timer Timer { get; set; }
 
         public void StartTimer()
         {
-            Log("Client connected");
+            Log("Client connected", ConsoleColor.Red);
 
             if (Timer == null)
             {
@@ -24,10 +25,10 @@ namespace TimeServer
                 Timer.Elapsed += (s, e) =>
                     {
                         var tm = DateTime.Now.ToLongTimeString();
-                        Log("Sending " + tm + " to client");
+                        Log("Sending " + tm + " to client", Console.ForegroundColor);
 
                         // -----------------------------
-                        Clients.showTime(tm);
+                        Caller.showTime(tm);
                         // -----------------------------
                     };
 
@@ -35,9 +36,12 @@ namespace TimeServer
             }
         }
 
-        void Log(string msg)
+        void Log(string msg, ConsoleColor color)
         {
+            var c = Console.ForegroundColor;
+            Console.ForegroundColor = color;
             Console.WriteLine(msg);
+            Console.ForegroundColor = c;
             Trace.WriteLine(msg);
         }
     }

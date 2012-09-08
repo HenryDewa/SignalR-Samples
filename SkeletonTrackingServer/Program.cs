@@ -30,10 +30,10 @@ namespace SkeletonTrackingServer
         void Start()
         {
             _connection = new HubConnection("http://localhost:40143");
+            _hub = _connection.CreateProxy("moveShape");
+
             _connection.Start().ContinueWith((t) =>
                 {
-                    _hub = _connection.CreateProxy("moveShape");
-
                     if (KinectSensor.KinectSensors.Any())
                     {
                         this._kinect = KinectSensor.KinectSensors.First();

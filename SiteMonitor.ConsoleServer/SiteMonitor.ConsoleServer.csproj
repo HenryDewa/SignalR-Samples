@@ -48,12 +48,6 @@
     <Compile Include="StaticSiteRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SiteMonitor\SiteMonitor.csproj">
-      <Project>{53fd18ad-dace-4868-81f8-37a2c598156e}</Project>
-      <Name>SiteMonitor</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

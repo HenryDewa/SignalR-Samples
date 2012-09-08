@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI';
+        }
+    </style>
+</head>
+<body>
+    <ul id="traceMessages"></ul>
+
+    <script src="Scripts/jquery-1.8.0.js"></script>
+    <script src="Scripts/json2.js"></script>
+    <script src="Scripts/jquery.signalR-0.5.3.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#end').hide();
+
+            var cn = $.hubConnection('http://localhost:17');
+            var hub = cn.createProxy('trace');
+
+            hub.on('receiveTraceMessage', function (msg) {
+                $('#traceMessages').prepend('<li>' + msg + '</li>');
+            });
+
+            cn.start().done(function () {
+                hub.invoke('startTrace');
+            });
+
+        });
+    </script>
+</body>
+</html>

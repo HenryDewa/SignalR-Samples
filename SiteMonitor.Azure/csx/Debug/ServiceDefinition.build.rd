@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SiteMonitor.Azure" generation="1" functional="0" release="0" Id="491329e8-7892-438d-a483-22436230ba32" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SiteMonitor.Azure" generation="1" functional="0" release="0" Id="7dcbcc7e-8816-4599-a7aa-4fb6fe6e3d0c" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="SiteMonitor.AzureGroup" generation="1" functional="0" release="0">
       <settings>
@@ -48,7 +48,7 @@
       </maps>
       <components>
         <groupHascomponents>
-          <role name="SiteMonitor.WorkerRole" generation="1" functional="0" release="0" software="C:\Users\bradyg\Dropbox\Presentations\AZ-Groups-Gu-Day-2012\AZ-Group-SignalR\SiteMonitor.Azure\csx\Debug\roles\SiteMonitor.WorkerRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="1792" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
+          <role name="SiteMonitor.WorkerRole" generation="1" functional="0" release="0" software="C:\Users\bradyg\SkyDrive\Sources\SignalR-Samples\SiteMonitor.Azure\csx\Debug\roles\SiteMonitor.WorkerRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="1792" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
             <settings>
               <aCS name="GUI_URL" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />

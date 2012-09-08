@@ -2,60 +2,57 @@
 <html>
 <head>
     <title>Index</title>
-    <script src="Scripts/jquery-1.6.4.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-1.8.0.js" type="text/javascript"></script>
     <script src="Scripts/json2.js" type="text/javascript"></script>
-    <script src="Scripts/jquery.signalR-0.5.1.js" type="text/javascript"></script>
-    <script src="signalr/hubs" type="text/javascript"></script>
+    <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/Content/site.css" />
 </head>
 <body>
     <script type="text/javascript">
 
         $(function () {
-            var hub = $.connection.siteMonitorNotificationHub;
+            var cn = $.hubConnection();
+            var hub = cn.createProxy('siteMonitorNotificationHub');
 
-            $.extend(hub, {
-                notifySiteStatus: function (monitorUpdate) {
-                    if ($('li.site[data-url="' + monitorUpdate.Url + '"]').length == 0) {
-                        $('#sites')
-                            .append('<li data-url="' + monitorUpdate.Url + '" class="site">'
-                                + '<input class="removeSite" data-url="' + monitorUpdate.Url + '" type="button" value="X"/>'
-                                + monitorUpdate.Url.replace('http://', '')
-                                + '</li>');
-                    }
-
-                    if (monitorUpdate.Result == true) {
-                        $('li.site[data-url="' + monitorUpdate.Url + '"]').addClass('on');
-                        $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('off');
-                        $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('waiting');
-                    }
-                    else {
-                        $('li.site[data-url="' + monitorUpdate.Url + '"]').addClass('off');
-                        $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('on');
-                        $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('waiting');
-                    }
-                },
-                notifySiteRemoved: function (url) {
-                    $('li.site[data-url="' + url + '"]').remove();
-                },
-                notifySiteAdded: function (url) {
-                    if ($('li.site[data-url="' + url + '"]').length == 0) {
-                        $('#sites')
-                            .append('<li data-url="' + url + '" class="site waiting">'
-                                + '<input class="removeSite" data-url="' + url + '" type="button" value="X"/>' + url.replace('http://', '') + '</li>');
-                    }
+            hub.on('notifySiteStatus', function (monitorUpdate) {
+                if ($('li.site[data-url="' + monitorUpdate.Url + '"]').length == 0) {
+                    $('#sites')
+                        .append('<li data-url="' + monitorUpdate.Url + '" class="site">'
+                            + '<input class="removeSite" data-url="' + monitorUpdate.Url + '" type="button" value="X"/>'
+                            + monitorUpdate.Url.replace('http://', '')
+                            + '</li>');
+                }
+                if (monitorUpdate.Result == true) {
+                    $('li.site[data-url="' + monitorUpdate.Url + '"]').addClass('on');
+                    $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('off');
+                    $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('waiting');
+                }
+                else {
+                    $('li.site[data-url="' + monitorUpdate.Url + '"]').addClass('off');
+                    $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('on');
+                    $('li.site[data-url="' + monitorUpdate.Url + '"]').removeClass('waiting');
+                }
+            })
+            .on('notifySiteRemoved', function (url) {
+                $('li.site[data-url="' + url + '"]').remove();
+            })
+            .on('notifySiteAdded', function (url) {
+                if ($('li.site[data-url="' + url + '"]').length == 0) {
+                    $('#sites')
+                        .append('<li data-url="' + url + '" class="site waiting">'
+                            + '<input class="removeSite" data-url="' + url + '" type="button" value="X"/>' + url.replace('http://', '') + '</li>');
                 }
             });
 
             $('#addSite').click(function () {
-                hub.addSite($('#siteUrl').val());
+                hub.invoke('addSite', $('#siteUrl').val());
             });
 
             $('.removeSite').live('click', function () {
-                hub.removeSite($(this).data('url'));
+                hub.invoke('removeSite', $(this).data('url'));
             });
 
-            $.connection.hub.start();
+            cn.start();
         });
 
     </script>

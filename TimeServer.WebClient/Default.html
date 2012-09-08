@@ -3,9 +3,8 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="Site.css" />
-    <script type="text/javascript" src="/Scripts/jquery-1.6.4.js"></script>
-    <script type="text/javascript" src="/Scripts/jquery.signalR-0.5.1.js"></script>
-    <script type="text/javascript" src="http://localhost:17/signalr/hubs"></script>
+    <script type="text/javascript" src="/Scripts/jquery-1.8.0.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.signalR-0.5.3.js"></script>
 </head>
 <body>
 
@@ -14,19 +13,16 @@
     <script type="text/javascript">
 
         $(function () {
-            var hub = $.connection.timeHub;
+            var cn = $.hubConnection('http://localhost:17/');
+            var hub = cn.createProxy('serverTime');
 
-            $.extend(hub, {
-                showTime: function (tm) {
-                    $('#clock').text(tm);
-                }
+            hub.on('showTime', function (tm) {
+                $('#clock').text(tm);
             });
 
-            $.connection.hub.url = 'http://localhost:17/signalr';
-
-            $.connection.hub.start(
+            cn.start().done(
                 function () {
-                    hub.startTimer();
+                    hub.invoke('startTimer');
                 }
             );
         });

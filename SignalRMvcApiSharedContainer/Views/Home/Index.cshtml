@@ -1,0 +1,57 @@
+﻿<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p class="site-title">Web API + SignalR</p>
+        </div>
+    </div>
+</header>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h2>Send a Message:</h2>
+            </hgroup>
+            <p>
+                <input type="text" name="message" value="Hello World" id="message" />
+                <button id="send">Send</button>
+            </p>
+            <p>
+                <div>Status: <span id="status">Disconnected</span></div>
+                <div style="float: left; width: 50%;">
+                    <h2>Sent to Web API:</h2>
+                    <ul id="sentMessages"></ul>
+                </div>
+                <div style="float: left; width: 50%;">
+                    <h2>Received from SignalR:</h2>
+                    <ul id="receivedMessages"></ul>
+                </div>
+            </p>
+            <p>&nbsp;</p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+    </section>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/json2.js"></script>
+    <script src="~/Scripts/jquery.signalR-0.5.3.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var cn = $.hubConnection();
+            var hub = cn.createProxy('messageHub');
+            hub.on('onMessageReceived', function (body) {
+                $('#receivedMessages').prepend('<li>' + body + '</li>').slideDown();
+            });
+            cn.start().done(function () {
+                hub.invoke('start');
+                $('#status').text('Connected');
+            });
+            $('#send').click(function () {
+                $.post('/api/message?body=' + $('#message').val(), function (data) {
+                    $('#sentMessages').prepend('<li>' + $('#message').val() + '</li>').slideDown();
+                });
+            });
+        });
+    </script>
+}

@@ -6,8 +6,7 @@ using SignalR.Hubs;
 
 namespace BasicExamples.Hubs
 {
-    public class HitCounterHub
-        : Hub
+    public class HitCounterHub : Hub
     {
         public int HitCount
         {

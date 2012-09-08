@@ -8,10 +8,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.6.4.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.0.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/json2.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.signalR-0.5.1.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/signalr/hubs")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.signalR-0.5.3.js")"></script>
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/site.css")" />
 </head>
 <body>
@@ -27,12 +26,11 @@
     <script type="text/ecmascript">
 
         $(function () {
-            var hub = $.connection.chatHub;
+            var cn = $.hubConnection();
+            var hub = cn.createProxy('chatHub');
 
-            $.extend(hub, {
-                receiveMessage: function (result) {
-                    $('#messages').append('<li><b>' + result.username + '</b> said ' + result.message + '</li>');
-                }
+            hub.on('receiveMessage', function (result) {
+                $('#messages').append('<li><b>' + result.username + '</b> said ' + result.message + '</li>');
             });
 
             $('#send').attr('disabled', 'disabled');
@@ -60,7 +58,7 @@
                 }
             });
 
-            $.connection.hub.start(function () {
+            cn.start().done(function () {
                 $('#send').click(function () {
                     sendMessage();
                 });
@@ -73,7 +71,7 @@
                 };
 
                 if (msg.message != '') {
-                    hub.sendMessage(msg);
+                    hub.invoke('sendMessage', msg);
                 }
 
                 $('#message').val('');

@@ -7,6 +7,7 @@ using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using SignalR.Hosting.Self;
 
 namespace SiteMonitor.WorkerRole
 {

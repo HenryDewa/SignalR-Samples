@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+    <button id="Start">Start</button>
+
+    <div id="chartingContainer" style="width: 100%;"></div>
+
+    <script src="Scripts/jquery-1.8.0.js"></script>
+    <script src="Scripts/json2.js"></script>
+    <script src="Scripts/highcharts.js"></script>
+    <script src="Scripts/jquery.signalR-0.5.3.js"></script>
+
+    <script type="text/javascript">
+
+        var charts = [];
+
+        $(document).ready(function () {
+
+            var cn = $.hubConnection("http://localhost:17");
+            var hub = cn.createProxy("performanceMonitor");
+
+            $('#Start').click(function () {
+                cn.start().done(function () {
+                    $('#Start').text('Stop');
+                    hub.invoke('start');
+                });
+            });
+
+            hub.on('showChartData', function (v) {
+                id = cleanString(v.name);
+                if ($('#' + id).length == 0) {
+                    addNewChartToPage(v.name, v.value);
+                }
+                else {
+                    addPointToChart(v.name, v.value);
+                }
+            });
+
+            function addNewChartToPage(name, value) {
+                id = cleanString(name);
+                $('#chartingContainer').append('<div style="width:500px; height:400px; float:left;" id="' + id + '"></div>');
+                chart = new Highcharts.Chart({
+                    chart: { renderTo: id, type: 'line' },
+                    title: { text: name },
+                    xAxis: { categories: [name] },
+                    yAxis: { title: { text: name } },
+                    series: [{ name: name, data: [value] }]
+                });
+
+                charts.push(chart);
+            }
+
+            function cleanString(s) {
+                return s.replace(/[^a-zA-Z 0-9]+/g, '').replace(' ', '');
+            }
+
+            function addPointToChart(name, value) {
+                for (i = 0; i < charts.length; i++) {
+                    if (charts[i].title.text == name) {
+                        var shift = charts[i].series[0].data.length > 20;
+                        charts[i].series[0].addPoint(value, true, shift);
+                    }
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

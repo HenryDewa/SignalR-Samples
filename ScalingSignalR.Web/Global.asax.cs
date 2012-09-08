@@ -24,14 +24,16 @@ namespace ScalingSignalR.Web
 
             // use Redis
             // get the Redis for Windows here: https://github.com/MSOpenTech/redis
-            GlobalHost.DependencyResolver.UseRedis("localhost", 6379, string.Empty, "chat");
+            //GlobalHost.DependencyResolver.UseRedis("localhost", 6379, string.Empty, "chat");
             
             // if you're using a web role or a cloud service you can use Service Bus
+            /*
             GlobalHost.DependencyResolver.UseWindowsAzureServiceBus("yourNamespace",
                 "owner", // usually
                 "your key here",
                 "myTopicPrefix",
                 1); // increase this when you need to dramatically increase your throughput
+            */
         }
     }
 }

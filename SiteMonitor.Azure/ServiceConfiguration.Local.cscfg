@@ -4,7 +4,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="GUI_URL" value="http://localhost:48514/" />
+      <Setting name="GUI_URL" value="http://localhost:43212" />
       <Setting name="SiteUrls" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
   </Role>

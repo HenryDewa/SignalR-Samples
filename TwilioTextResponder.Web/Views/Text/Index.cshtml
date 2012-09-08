@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Log";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<div>
+    <div style="display: inline; width: 100%; text-align: center;">
+        <h2 style="text-align: center;">Send a text to (425) 533-0968 to comment on the session</h2>
+    </div>
+</div>
+<div id="content">
+    <div style="float: left; display: inline; width: 30%;">
+        <ul id="messages"></ul>
+    </div>
+    <div style="float: left; display: inline; width: 70%;">
+        <div id="mapDiv" style="position: absolute; width: 70%; height: 100%;"></div>
+    </div>
+</div>
+
+
+
+@section scripts
+{
+    <script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+
+    <script type="text/javascript">
+        var map;
+
+        $(function () {
+            $('#content').hide();
+            var cn = $.hubConnection();
+            var hub = cn.createProxy('textReceiver');
+            hub.on('onTextReceived', function (message) {
+                $('#content').show();
+                $('#messages').prepend('<li>' + message.Body + '</li>').slideDown();
+                runQuery(message.City + ', ' + message.ZipCode);
+            });
+            cn.start().done(function () {
+                hub.invoke('start');
+            });
+
+            map = new Microsoft.Maps.Map(document.getElementById("mapDiv"),
+                {
+                    credentials: "AiJKecSTSw0tj-Hekv1JoccPWl76WdAHEr8cKuwvgescn-Y_2RZe2oYyTdUmGK8P",
+                    center: new Microsoft.Maps.Location(29.6848, -95.4110),
+                    mapTypeId: Microsoft.Maps.MapTypeId.road,
+                    zoom: 5
+                });
+
+            $('h2').click(function () {
+                hub.invoke('fakeIt');
+            });
+        });
+
+        function runQuery(query) {
+            var geocodeRequest = "http://dev.virtualearth.net/REST/v1/Locations?query=" + encodeURI(query) + "&output=json&jsonp=GeocodeCallback&key=" + "AiJKecSTSw0tj-Hekv1JoccPWl76WdAHEr8cKuwvgescn-Y_2RZe2oYyTdUmGK8P";
+            CallRestService(geocodeRequest);
+        }
+
+        function GeocodeCallback(result) {
+            if (result &&
+                   result.resourceSets &&
+                   result.resourceSets.length > 0 &&
+                   result.resourceSets[0].resources &&
+                   result.resourceSets[0].resources.length > 0) {
+                // Set the map view using the returned bounding box
+                var bbox = result.resourceSets[0].resources[0].bbox;
+                var viewBoundaries = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(bbox[0], bbox[1]), new Microsoft.Maps.Location(bbox[2], bbox[3]));
+                map.setView({ bounds: viewBoundaries });
+
+                // Add a pushpin at the found location
+                var location = new Microsoft.Maps.Location(result.resourceSets[0].resources[0].point.coordinates[0], result.resourceSets[0].resources[0].point.coordinates[1]);
+                var pushpin = new Microsoft.Maps.Pushpin(location);
+                map.entities.push(pushpin);
+            }
+        }
+
+        function CallRestService(request) {
+            var script = document.createElement("script");
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute("src", request);
+            document.body.appendChild(script);
+        }
+    </script>
+}

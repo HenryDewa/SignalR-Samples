@@ -28,10 +28,5 @@ namespace BasicExamples.Connections
             this.Connection.Broadcast(_userCount);
             return base.OnDisconnectAsync(connectionId);
         }
-
-        protected override System.Threading.Tasks.Task OnErrorAsync(Exception error)
-        {
-            return base.OnErrorAsync(error);
-        }
     }
 }

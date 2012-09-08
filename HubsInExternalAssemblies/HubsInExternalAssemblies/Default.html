@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-1.6.4.js"></script>
+    <script src="Scripts/jquery.signalR-0.5.3.js"></script>
+</head>
+<body>
+
+    <button id="internal">Internal</button>
+    <button id="external">External</button>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var cn = $.hubConnection();
+
+            var internal = cn.createProxy('internalHub');
+
+            internal.on('onSomeInternalMethod', function (msg) {
+                alert(msg);
+            });
+
+            $('#internal').click(function () {
+                internal.invoke('someInternalMethod');
+            });
+
+            var external = cn.createProxy('externalHub');
+            
+            external.on('onSomeExternalMethod', function (msg) {
+                alert(msg);
+            });
+
+            $('#external').click(function () {
+                external.invoke('someExternalMethod');
+            });
+
+            cn.start(function () {
+                alert('started');
+            });
+        });
+    </script>
+
+</body>
+</html>
